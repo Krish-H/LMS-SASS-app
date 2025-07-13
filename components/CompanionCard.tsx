@@ -1,9 +1,10 @@
 "use client";
-import { removeBookmark } from "@/lib/actions/companion.actions";
-import { addBookmark } from "@/lib/actions/companion.actions";
+
+import { useUser } from "@clerk/nextjs";
+import { removeBookmark, addBookmark } from "@/lib/actions/companion.actions";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 interface CompanionCardProps {
   id: string;
@@ -24,17 +25,23 @@ const CompanionCard = ({
   color,
   bookmarked,
 }: CompanionCardProps) => {
+  const { user } = useUser();
   const pathname = usePathname();
+  const router = useRouter();
+
   const handleBookmark = async () => {
+    if (!user) {
+      router.push("/sign-in");
+      return;
+    }
 
     if (bookmarked) {
       await removeBookmark(id, pathname);
     } else {
       await addBookmark(id, pathname);
-      
     }
-
   };
+
   return (
     <article className="companion-card" style={{ backgroundColor: color }}>
       <div className="flex justify-between items-center">

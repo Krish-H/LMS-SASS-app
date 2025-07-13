@@ -31,7 +31,7 @@ const CompanionCard = ({
       await removeBookmark(id, pathname);
     } else {
       await addBookmark(id, pathname);
-      throw new Error("bookamark is not added");
+      
     }
 
   };

@@ -29,7 +29,7 @@ const Profile = async () => {
         <div className="flex gap-4 items-center">
           <Image
             src={user.imageUrl}
-            alt={user.firstName!}
+             alt={user.firstName ?? 'User profile image'}
             width={110}
             height={110}
           />
